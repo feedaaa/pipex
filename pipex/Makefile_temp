@@ -1,17 +1,8 @@
-NAME        := pipex
-CC        := gcc
-FLAGS    := -Wall -Wextra -Werror 
 
-SRCS        :=      error.c \
-                          fcns.c \
-                          libft/ft_putendl_fd.c \
-                          libft/ft_putstr_fd.c \
-                          libft/ft_split.c \
-                          libft/ft_strjoin.c \
-                          libft/ft_substr.c \
-                          pipex.c \
-                          
-OBJS        := $(SRCS:.c=.o)
+################################################################################
+#                                  Makefile  objs                              #
+################################################################################
+
 
 CLR_RMV		:= \033[0m
 RED		    := \033[1;31m
@@ -41,3 +32,5 @@ fclean:		clean
 re:			fclean all
 
 .PHONY:		all clean fclean re
+
+

@@ -15,6 +15,20 @@ int ft_strcmp(char *s1, char *s2)
     }
     return(0);
 }
+char ft_putstr(char *s)
+{
+    int i;
+
+    i = 0;
+    if (s[i] == '\0')
+        return (0);
+    while (s[i] != '\0')
+    {
+        write(1, &s[i], 1);
+        i++;
+    }
+    return (0);
+}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -38,20 +52,20 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (all);
 }
 
-char *find_env_path(char *name, char **env)
+char *find_env_path(char *pathname, char **env)
 {
-    int i;
-    int j;
-    chat *str;
+    int     i;
+    int     j;
+    char    *str;
 
     i = 0;
-    while(env[i] != '\0')
+    while(env[i])
     {
         j = 0;
         while(env[i][j] && env[i][j] != '=')
             j++;
         str = ft_substr(env[i], 0, j);
-        if (ft_strcmp(str, name) == 0);
+        if (ft_strcmp(str, pathname) == 0);
         {
             free(str);
             return (env[i] + j + 1);
@@ -74,7 +88,7 @@ void find_path(char **cmd, char **env)
     if(!find_env)
         error(5);
     path = ft_split(find_env, ':');
-    cmd_split = ft_split(cmd, ' ');
+    cmd_split = ft_split(*cmd, ' ');
     while(path[++i])
     {
         path_exec = ft_strjoin(ft_strjoin(path[i], "/"), cmd_split[0]);
@@ -102,5 +116,4 @@ void ft_free(char **str)
             i++;
         }
         free(str);
-    }
 }

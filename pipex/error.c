@@ -1,12 +1,12 @@
 #include "pipex.h"
 
-int error2(int errorcode)
+int error2(int error_code)
 {
     if(error_code == 4)
     {
         ft_putstr_fd(RED_C, STDERR_FILENO);
         ft_putstr("less than 5 arguments :/ \n");
-        ft_putstr("usage: ./pipex file1 cmd1 cmd2 file2\n")
+        ft_putstr("usage: ./pipex file1 cmd1 cmd2 file2\n");
     }
     if(error_code == 5)
     {
@@ -18,6 +18,7 @@ int error2(int errorcode)
         ft_putstr_fd(RED_C, STDERR_FILENO);
         ft_putstr("pid error :/ \n");
     }
+    exit(error_code);
 }
 
 
@@ -27,7 +28,7 @@ int error(int error_code)
     {
         ft_putstr_fd(RED_C, STDERR_FILENO);
         ft_putstr("less than 5 arguments :/ \n");
-        ft_putstr("usage: ./pipex file1 cmd1 cmd2 file2\n")
+        ft_putstr("usage: ./pipex file1 cmd1 cmd2 file2\n");
     }
     if(error_code == 2)
     {
@@ -38,6 +39,6 @@ int error(int error_code)
     {
         ft_putstr("pid error :/ \n");
     }
-    error2(errorcode);
-    exit(errorcode);
+    error2(error_code);
+    exit(error_code);
 }
