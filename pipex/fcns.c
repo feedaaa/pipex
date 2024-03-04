@@ -15,7 +15,7 @@ int ft_strcmp(char *s1, char *s2)
     }
     return(0);
 }
-char ft_putstr(char *s)
+char    ft_putstr(char *s)
 {
     int i;
 
@@ -65,7 +65,7 @@ char *find_env_path(char *pathname, char **env)
         while(env[i][j] && env[i][j] != '=')
             j++;
         str = ft_substr(env[i], 0, j);
-        if (ft_strcmp(str, pathname) == 0);
+        if (ft_strcmp(str, pathname) == 0)
         {
             free(str);
             return (env[i] + j + 1);
@@ -76,7 +76,7 @@ char *find_env_path(char *pathname, char **env)
     return (NULL);
 }
 
-void find_path(char **cmd, char **env)
+char    *find_path(char **cmd, char **env)
 {
     int     i;
     char	**path;
@@ -84,6 +84,7 @@ void find_path(char **cmd, char **env)
 	char	*path_exec;
 	char	*find_env;
 
+    i = -1;
     find_env = find_env_path("PATH", env);
     if(!find_env)
         error(5);
@@ -101,7 +102,7 @@ void find_path(char **cmd, char **env)
     }
     free(cmd_split);
     free(path);
-    return(cmd);
+    return(*cmd);
 
 }
 

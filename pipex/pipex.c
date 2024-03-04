@@ -8,7 +8,7 @@ void	execute(char *cmd, char **env)
 	cmd_split = ft_split(cmd, ' ');
 	if (!cmd_split[0])
 		error(4);
-	path = find_path(cmd_split[0], env);
+	path = find_path(&cmd_split[0], env);
 	if (execve(path, cmd_split, env) == -1)
 	{
 		ft_putstr_fd(RED_C, STDERR_FILENO);
@@ -19,9 +19,10 @@ void	execute(char *cmd, char **env)
 	}
 }
 
-void	parent_process(char **av, int *pipefd, char **env);
+void	parent_process(char **av, int *pipefd, char **env)
 {
-	int fd;
+	int	fd;
+
 	fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	dup2(fd, 1);
 	dup2(pipefd[0], 0);
@@ -39,6 +40,7 @@ void	child_process(char **av, int *pipefd, char **env)
 	close(pipefd[0]);
 	execute(av[2], env);
 }
+
 int	main(int ac, char **av, char **env)
 {
 	int pipefd[2];
