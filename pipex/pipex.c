@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ffidha <ffidha@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/08 13:15:28 by ffidha            #+#    #+#             */
+/*   Updated: 2024/03/08 13:20:33 by ffidha           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 void	execute(char *cmd, char **env)
@@ -21,7 +33,7 @@ void	execute(char *cmd, char **env)
 
 void	parent_process(char **av, int *pipefd, char **env)
 {
-	int	fd;
+	int		fd;
 
 	fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	dup2(fd, 1);
@@ -32,7 +44,7 @@ void	parent_process(char **av, int *pipefd, char **env)
 
 void	child_process(char **av, int *pipefd, char **env)
 {
-	int	fd;
+	int		fd;
 
 	fd = open(av[1], O_RDONLY, 0777);
 	dup2(fd, 0);
@@ -43,8 +55,8 @@ void	child_process(char **av, int *pipefd, char **env)
 
 int	main(int ac, char **av, char **env)
 {
-	int pipefd[2];
-	pid_t pid;
+	int		pipefd[2];
+	pid_t	pid;
 
 	if (ac != 5)
 		error(1);

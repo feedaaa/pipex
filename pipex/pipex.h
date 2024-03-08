@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ffidha <ffidha@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/08 13:20:59 by ffidha            #+#    #+#             */
+/*   Updated: 2024/03/08 13:21:04 by ffidha           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "libft/libft.h"
+# include "./libft/libft.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -18,7 +30,7 @@ void	parent_process(char **av, int *pipefd, char **env);
 void	child_process(char **av, int *pipefd, char **env);
 // utils
 char	*find_path(char **cmd, char **env);
-char	*find_env_path(char *command, char **env);
+char	*find_env_path(char **env);
 int		ft_strcmp(char *s1, char *s2);
 int		error2(int error_code);
 int		error(int error_code);
