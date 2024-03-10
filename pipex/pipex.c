@@ -6,7 +6,7 @@
 /*   By: ffidha <ffidha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 13:15:28 by ffidha            #+#    #+#             */
-/*   Updated: 2024/03/08 13:20:33 by ffidha           ###   ########.fr       */
+/*   Updated: 2024/03/10 13:25:53 by ffidha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ int	main(int ac, char **av, char **env)
 	int		pipefd[2];
 	pid_t	pid;
 
+	if (!*env || !env)
+	{
+		error(6);
+		exit(1);
+	}
 	if (ac != 5)
 		error(1);
 	if (pipe(pipefd) < 0)

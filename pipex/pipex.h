@@ -6,7 +6,7 @@
 /*   By: ffidha <ffidha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 13:20:59 by ffidha            #+#    #+#             */
-/*   Updated: 2024/03/08 13:21:04 by ffidha           ###   ########.fr       */
+/*   Updated: 2024/03/10 13:31:33 by ffidha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ void	child_process(char **av, int *pipefd, char **env);
 // utils
 char	*find_path(char **cmd, char **env);
 char	*find_env_path(char **env);
-int		ft_strcmp(char *s1, char *s2);
 int		error2(int error_code);
 int		error(int error_code);
-char	ft_putstr(char *s);
 void	ft_free(char **str);
 
 #endif

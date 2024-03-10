@@ -6,7 +6,7 @@
 /*   By: ffidha <ffidha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 13:11:26 by ffidha            #+#    #+#             */
-/*   Updated: 2024/03/08 13:20:33 by ffidha           ###   ########.fr       */
+/*   Updated: 2024/03/10 13:25:53 by ffidha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*find_env_path(char **env)
 		i++;
 	if (!env[i])
 	{
-		ft_putstr_fd("No path variable found in environment.\n", 2);
+		error(7);
 		exit(1);
 		return (NULL);
 	}
