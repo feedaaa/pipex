@@ -6,7 +6,7 @@
 /*   By: ffidha <ffidha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 13:11:26 by ffidha            #+#    #+#             */
-/*   Updated: 2024/03/10 16:01:09 by ffidha           ###   ########.fr       */
+/*   Updated: 2024/03/11 12:32:19 by ffidha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ char	*find_env_path(char **env)
 	}
 	return (env[i] + 5);
 }
-char    *find_path(char **cmd, char **env)
+
+char	*find_path(char **cmd, char **env)
 {
 	int		i;
 	char	**path;

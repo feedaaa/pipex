@@ -6,7 +6,7 @@
 /*   By: ffidha <ffidha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 13:15:28 by ffidha            #+#    #+#             */
-/*   Updated: 2024/03/10 13:25:53 by ffidha           ###   ########.fr       */
+/*   Updated: 2024/03/11 12:19:55 by ffidha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	parent_process(char **av, int *pipefd, char **env)
 	int		fd;
 
 	fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fd == -1)
+		error(8);
 	dup2(fd, 1);
 	dup2(pipefd[0], 0);
 	close(pipefd[1]);
@@ -47,6 +49,8 @@ void	child_process(char **av, int *pipefd, char **env)
 	int		fd;
 
 	fd = open(av[1], O_RDONLY, 0777);
+	if (fd == -1)
+		error(8);
 	dup2(fd, 0);
 	dup2(pipefd[1], 1);
 	close(pipefd[0]);
