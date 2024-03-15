@@ -6,7 +6,7 @@
 /*   By: ffidha <ffidha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 13:15:28 by ffidha            #+#    #+#             */
-/*   Updated: 2024/03/11 12:19:55 by ffidha           ###   ########.fr       */
+/*   Updated: 2024/03/15 11:35:07 by ffidha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,9 @@ int	main(int ac, char **av, char **env)
 		error(3);
 	if (pid == 0)
 		child_process(av, pipefd, env);
-	parent_process(av, pipefd, env);
+	pid = fork();
+	if (pid < 0)
+		error(3);
+	if (pid != 0)
+		parent_process(av, pipefd, env);
 }

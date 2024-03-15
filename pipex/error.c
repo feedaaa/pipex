@@ -6,7 +6,7 @@
 /*   By: ffidha <ffidha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 13:17:51 by ffidha            #+#    #+#             */
-/*   Updated: 2024/03/11 12:28:42 by ffidha           ###   ########.fr       */
+/*   Updated: 2024/03/11 13:14:25 by ffidha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	error2(int error_code)
 	if (error_code == 4)
 	{
 		ft_putstr_fd(RED_C, STDERR_FILENO);
-		ft_putstr_fd("less than 5 arguments :/ \n", 2);
+		ft_putstr_fd("command not found: \n", 2);
 	}
 	if (error_code == 5)
 	{

@@ -6,7 +6,7 @@
 /*   By: ffidha <ffidha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 13:11:26 by ffidha            #+#    #+#             */
-/*   Updated: 2024/03/11 12:32:19 by ffidha           ###   ########.fr       */
+/*   Updated: 2024/03/15 12:21:58 by ffidha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,15 @@ char	*find_path(char **cmd, char **env)
 		path_exec = ft_strjoin(ft_strjoin(path[i], "/"), cmd_split[0]);
 		if (access(path_exec, F_OK | X_OK) == 0)
 		{
-			free(cmd_split);
-			return (path_exec);
+			return (free(cmd_split), path_exec);
+		}
+		else if (path[i + 1] == NULL && access(path_exec, F_OK | X_OK) != 0)
+		{
+			error(4);
 		}
 		free(path_exec);
 	}
-	free(cmd_split);
-	free(path);
-	return (*cmd);
+	return (free(path), free(cmd_split), *cmd);
 }
 
 void	ft_free(char **str)
