@@ -6,7 +6,7 @@
 /*   By: ffidha <ffidha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 13:15:28 by ffidha            #+#    #+#             */
-/*   Updated: 2024/03/15 11:35:07 by ffidha           ###   ########.fr       */
+/*   Updated: 2024/03/20 14:30:37 by ffidha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	execute(char *cmd, char **env)
 		ft_putstr_fd("command not found: ", STDERR_FILENO);
 		ft_putendl_fd(cmd_split[0], STDERR_FILENO);
 		ft_free(cmd_split);
-		exit(0);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -37,7 +37,7 @@ void	parent_process(char **av, int *pipefd, char **env)
 
 	fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd == -1)
-		error(8);
+		perror(av[4]);
 	dup2(fd, 1);
 	dup2(pipefd[0], 0);
 	close(pipefd[1]);
@@ -50,7 +50,9 @@ void	child_process(char **av, int *pipefd, char **env)
 
 	fd = open(av[1], O_RDONLY, 0777);
 	if (fd == -1)
-		error(8);
+	{
+		perror(av[1]);
+	}
 	dup2(fd, 0);
 	dup2(pipefd[1], 1);
 	close(pipefd[0]);
@@ -61,6 +63,7 @@ int	main(int ac, char **av, char **env)
 {
 	int		pipefd[2];
 	pid_t	pid;
+	int		status;
 
 	if (!*env || !env)
 	{
@@ -81,4 +84,6 @@ int	main(int ac, char **av, char **env)
 		error(3);
 	if (pid != 0)
 		parent_process(av, pipefd, env);
+	wait(&status);
+	exit(WEXITSTATUS(status));
 }

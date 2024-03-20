@@ -6,7 +6,7 @@
 /*   By: ffidha <ffidha@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 13:17:51 by ffidha            #+#    #+#             */
-/*   Updated: 2024/03/11 13:14:25 by ffidha           ###   ########.fr       */
+/*   Updated: 2024/03/20 14:30:12 by ffidha           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,7 @@ int	error2(int error_code)
 		ft_putstr_fd(RED_C, STDERR_FILENO);
 		ft_putstr_fd("No path variable found in environment :/ \n", 2);
 	}
-	if (error_code == 8)
-	{
-		ft_putstr_fd("No such file or directory :/ \n", 2);
-	}
-	exit(0);
+	exit(EXIT_FAILURE);
 }
 
 int	error(int error_code)
@@ -59,6 +55,7 @@ int	error(int error_code)
 		ft_putstr_fd(RED_C, STDERR_FILENO);
 		ft_putstr_fd("pid error :/ \n", 2);
 	}
-	error2(error_code);
+	if (error_code >= 4 && error_code <= 8)
+		error2(error_code);
 	exit(0);
 }
