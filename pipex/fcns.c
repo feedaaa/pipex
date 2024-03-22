@@ -12,121 +12,65 @@
 
 #include "pipex.h" // Include necessary header file
 
-// Function to execute a command
-void	execute(char *cmd, char **env)
+// Function to find the PATH environment variable
+char	*find_env_path(char **env)
 {
-	char	**cmd_split; // Array to store split command
-	char	*path; // Path to the executable command
+	int	i;
 
-	// Split the command into individual arguments
-	cmd_split = ft_split(cmd, ' ');
-	
-	// Check if command is empty
-	if (!cmd_split[0])
-		error(4); // Exit with error 4
-	
-	// Find the path to the executable command
-	path = find_path(&cmd_split[0], env);
-	
-	// Execute the command
-	if (execve(path, cmd_split, env) == -1)
+	i = 0;
+	// Find the PATH environment variable
+	while (env[i] && ft_strncmp(env[i], "PATH", 4))
+		i++;
+	if (!env[i])
 	{
-		// Print error message if command not found
-		ft_putstr_fd(RED_C, STDERR_FILENO);
-		ft_putstr_fd("command not found: ", STDERR_FILENO);
-		ft_putendl_fd(cmd_split[0], STDERR_FILENO);
-		ft_free(cmd_split); // Free memory allocated for split command
-		exit(EXIT_FAILURE); // Exit with failure status
-	}
-}
-
-// Function executed by the parent process
-void	parent_process(char **av, int *pipefd, char **env)
-{
-	int		fd;
-
-	// Open the output file for writing
-	fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (fd == -1)
-		perror(av[4]); // Exit with error 8 if file cannot be opened
-	// Redirect standard output to the output file
-	dup2(fd, 1);
-	
-	// Redirect standard input to the read end of the pipe
-	dup2(pipefd[0], 0);
-	
-	// Close the write end of the pipe
-	close(pipefd[1]);
-	
-	// Execute the command specified by av[3]
-	execute(av[3], env);
-}
-
-// Function executed by the child process
-void	child_process(char **av, int *pipefd, char **env)
-{
-	int		fd;
-
-	// Open the input file for reading
-	fd = open(av[1], O_RDONLY, 0777);
-	if (fd == -1)
-		perror(av[1]); // Exit with error 8 if file cannot be opened
-	
-	// Redirect standard input to the input file
-	dup2(fd, 0);
-	
-	// Redirect standard output to the write end of the pipe
-	dup2(pipefd[1], 1);
-	
-	// Close the read end of the pipe
-	close(pipefd[0]);
-	
-	// Execute the command specified by av[2]
-	execute(av[2], env);
-}
-
-// Main function
-int	main(int ac, char **av, char **env)
-{
-	int		pipefd[2];
-	pid_t	pid;
-	int		status;
-
-	// Check if environment variables are provided
-	if (!*env || !env)
-	{
-		error(6); // Exit with error 6 if environment variables are missing
+		error(7); // Exit with error 7 if PATH environment variable is not found
 		exit(1);
+		return (NULL);
 	}
-	
-	// Check if the correct number of arguments are provided
-	if (ac != 5)
-		error(1); // Exit with error 1 if incorrect number of arguments
-	
-	// Create a pipe
-	if (pipe(pipefd) < 0)
-		error(2); // Exit with error 2 if pipe creation fails
-	
-	// Fork a child process
-	pid = fork();
-	if (pid < 0)
-		error(3); // Exit with error 3 if fork fails
-	
-	// Child process executes child_process function
-	if (pid == 0)
-		child_process(av, pipefd, env);
-	
-	// Parent process executes parent_process function
-	pid = fork();
-	if (pid < 0)
-		error(3); // Exit with error 3 if fork fails
-	if (pid != 0)
-		parent_process(av, pipefd, env);
-	
-	// Wait for child process to complete
-	wait(&status);
-	
-	// Exit with the exit status of the child process
-	exit(WEXITSTATUS(status));
+	return (env[i] + 5); // Return the value of the PATH environment variable
 }
 
+// Function to find the full path of the executable command
+char	*find_path(char **cmd, char **env)
+{
+	int		i;
+	char	**path;
+	char	**cmd_split;
+	char	*path_exec;
+	char	*find_env;
+
+	i = -1;
+	find_env = find_env_path(env); // Get the value of the PATH environment variable
+	if (!find_env)
+		error(5); // Exit with error 5 if PATH environment variable is not found
+	path = ft_split(find_env, ':'); // Split the PATH variable into individual paths
+	cmd_split = ft_split(*cmd, ' '); // Split the command into individual arguments
+	while (path[++i]) // Iterate through each path in the PATH variable
+	{
+		// Concatenate the path with the command to get the full path of the executable
+		path_exec = ft_strjoin(ft_strjoin(path[i], "/"), cmd_split[0]);
+		// Check if the executable exists and is executable
+		if (access(path_exec, F_OK | X_OK) == 0)
+		{
+			return (free(cmd_split), path_exec); // Free memory allocated for split command and return the full path
+		}
+		else if (path[i + 1] == NULL && access(path_exec, F_OK | X_OK) != 0)
+			error(4); // Exit with error 4 if executable is not found in any path
+		free(path_exec); // Free memory allocated for full path
+	}
+	return (free(path), free(cmd_split), *cmd); // Free memory allocated for path and split command and return original command
+}
+
+// Function to free memory allocated for an array of strings
+void	ft_free(char **str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]); // Free memory allocated for each string
+		i++;
+	}
+	free(str); // Free memory allocated for array of strings
+}
