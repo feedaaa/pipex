@@ -1,0 +1,49 @@
+// E X T E R N A L   F U N C T I O N S
+
+// dup2() 
+// -> used to duplicate file descriptors. allows us to duplicate an existing 
+// file descriptor to another fd by overwriting the existing fd
+// -> used to redirect input/output 
+// -> used for closing fds: when using dup2 to duplicate an fd to a new fd, if the new file 
+//    fd is already open, dup2 will close it before duplicating.
+
+// fork()
+// -> creates a a new process that is a copy of the calling process
+// -> the new process(child) has its own copy of the parents descriptors and a unique process id
+// -> upon successful completion, fork() returns a value of 0 to the child process
+//    and returns the pid of the child to the parent process
+// -> if an error has occured in the fork(), then -1 is returned to the parent process and no child is created.
+
+// pipe()
+// -> creates a one way communication channel between 2 processes
+// -> when the system calls the pipe() the OS allocates two fds, and creates a virtual connection allowing data to flow from one process to the other
+// -> read end and write end; 
+
+// wait()
+// -> systm call used for process syncronizaion
+// -> used by paent process to wait for the termination of one or more child processes
+// -> when the parent process calls wait() it gets blocked; the parent process pauses temperorily until
+//    the child process terminates.
+// -> when the child process exits the exit status code allows the parent to retrive info about the child processes termination
+
+// exit()
+// -> system call used by a process to terminate its execution and return status code to the OS and potentially to the parent process
+// -> when exit is called it initiates some cleanup task like
+//      -> closing open file descriptors
+//      -> releasing allocted memory
+// -> WEXITSTATUS enable parent process to monitor their child processes execution and react accordingly based on the exit code.
+// -> its a macro used with wait()
+
+// execve()
+// -> system call for transforming a running process into a new process
+// -> takes the path to an excecutable file, arguments to be passed in the program and array of null terminated strings representing the env
+// -> when execve() is called the kernal suspends the execution of the calling process
+// -> and then loads the executable file specified by the path and allocates memory for the new process
+// -> sets up the argv and env variables for the new program
+
+// access()
+// -> function ised to check the accessibility of a file or directory based on a set of permissions
+// -> allows a program to determine if it has necessary privilages to perform a certan operation on a file
+// -> like reading, writing or executing
+// -> takes a path and amode; F_OK, X_OK, R_OK, W_OK
+// -> returns 0 if successful and -1 if failed
